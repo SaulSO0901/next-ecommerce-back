@@ -181,7 +181,6 @@ export default function ProductForm({swal,
           value={title}
           onChange={ev => setTitle(ev.target.value)}/>
         <label>Category</label>
-        
         <select value={category}
                 onChange={ev => setCategory(ev.target.value)}>
           <option value="">Uncategorized</option>
@@ -193,13 +192,18 @@ export default function ProductForm({swal,
           <div key={p.name} className="">
             <label>{p.name[0].toUpperCase()+p.name.substring(1)}</label>
             <div>
-
-          
+              <select value={productProperties[p.name]}
+                      onChange={ev =>
+                        setProductProp(p.name,ev.target.value)
+                      }
+              >
+                {p.values.map(v => (
+                  <option key={v} value={v}>{v}</option>
+                ))}
+              </select>
             </div>
           </div>
         ))}
-          <h1>Categories</h1>
-     
         <label>
           Photos
         </label>
@@ -242,11 +246,9 @@ export default function ProductForm({swal,
           onChange={ev => setPrice(ev.target.value)}
         />
         <button
-        
           type="submit"
           className="btn-primary">
           Save
-          
         </button>
       </form>
       <label>
