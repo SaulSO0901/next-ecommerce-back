@@ -3,11 +3,21 @@ import {useRouter} from "next/router";
 import axios from "axios";
 import Spinner from "@/components/Spinner";
 import {ReactSortable} from "react-sortablejs";
-import { withSwal } from 'react-sweetalert2';
-export default function ProductForm({swal,
+
+export default function ProductForm({
   _id,
   title:existingTitle,
   description:existingDescription,
+  description1:existingDescription1,
+  description2:existingDescription2,
+  description3:existingDescription3,
+  description4:existingDescription4,
+  description5:existingDescription5,
+  description6:existingDescription6,
+  description7:existingDescription7,
+  description8:existingDescription8,
+  description9:existingDescription9,
+  description10:existingDescription10,
   price:existingPrice,
   images:existingImages,
   category:assignedCategory,
@@ -15,6 +25,16 @@ export default function ProductForm({swal,
 }) {
   const [title,setTitle] = useState(existingTitle || '');
   const [description,setDescription] = useState(existingDescription || '');
+  const [description1,setDescription1] = useState(existingDescription1 || '');
+  const [description2,setDescription2] = useState(existingDescription2 || '');
+  const [description3,setDescription3] = useState(existingDescription3 || '');
+  const [description4,setDescription4] = useState(existingDescription4 || '');
+  const [description5,setDescription5] = useState(existingDescription5 || '');
+  const [description6,setDescription6] = useState(existingDescription6 || '');
+  const [description7,setDescription7] = useState(existingDescription7 || '');
+  const [description8,setDescription8] = useState(existingDescription8 || '');
+  const [description9,setDescription9] = useState(existingDescription9 || '');
+  const [description10,setDescription10] = useState(existingDescription10 || '');
   const [category,setCategory] = useState(assignedCategory || '');
   const [productProperties,setProductProperties] = useState(assignedProperties || {});
   const [price,setPrice] = useState(existingPrice || '');
@@ -23,94 +43,6 @@ export default function ProductForm({swal,
   const [isUploading,setIsUploading] = useState(false);
   const [categories,setCategories] = useState([]);
   const router = useRouter();
-  const [editedCategory, setEditedCategory] = useState(null);
-  const [name,setName] = useState('');
-  const [parentCategory,setParentCategory] = useState('');
-  const [properties,setProperties] = useState([]);
-  useEffect(() => {
-    fetchCategories();
-  }, [])
-  function fetchCategories() {
-    axios.get('/api/categories').then(result => {
-      setCategories(result.data);
-    });
-  }
-  async function saveCategory(ev){
-    ev.preventDefault();
-    const data = {
-      name,
-      parentCategory,
-      properties:properties.map(p => ({
-        name:p.name,
-        values:p.values.split(','),
-      })),
-    };
-    if (editedCategory) {
-      data._id = editedCategory._id;
-      await axios.put('/api/categories', data);
-      setEditedCategory(null);
-    } else {
-      await axios.post('/api/categories', data);
-    }
-    setName('');
-    setParentCategory('');
-    setProperties([]);
-    fetchCategories();
-  }
-  function editCategory(category){
-    setEditedCategory(category);
-    setName(category.name);
-    setParentCategory(category.parent?._id);
-    setProperties(
-      category.properties.map(({name,values}) => ({
-      name,
-      values:values.join(',')
-    }))
-    );
-  }
-  function deleteCategory(category){
-    swal.fire({
-      title: 'Are you sure?',
-      text: `Do you want to delete ${category.name}?`,
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Yes, Delete!',
-      confirmButtonColor: '#d55',
-      reverseButtons: true,
-    }).then(async result => {
-      if (result.isConfirmed) {
-        const {_id} = category;
-        await axios.delete('/api/categories?_id='+_id);
-        fetchCategories();
-      }
-    });
-  }
-  function addProperty() {
-    setProperties(prev => {
-      return [...prev, {name:'',values:''}];
-    });
-  }
-  function handlePropertyNameChange(index,property,newName) {
-    setProperties(prev => {
-      const properties = [...prev];
-      properties[index].name = newName;
-      return properties;
-    });
-  }
-  function handlePropertyValuesChange(index,property,newValues) {
-    setProperties(prev => {
-      const properties = [...prev];
-      properties[index].values = newValues;
-      return properties;
-    });
-  }
-  function removeProperty(indexToRemove) {
-    setProperties(prev => {
-      return [...prev].filter((p,pIndex) => {
-        return pIndex !== indexToRemove;
-      });
-    });
-  }
   useEffect(() => {
     axios.get('/api/categories').then(result => {
       setCategories(result.data);
@@ -119,7 +51,8 @@ export default function ProductForm({swal,
   async function saveProduct(ev) {
     ev.preventDefault();
     const data = {
-      title,description,price,images,category,
+      title,description,description1,description2,description3,description4,description5,description6
+      ,description7,description8,description9,description10,price,images,category,
       properties:productProperties
     };
     if (_id) {
@@ -172,7 +105,6 @@ export default function ProductForm({swal,
   }
 
   return (
-    <div>
       <form onSubmit={saveProduct}>
         <label>Product name</label>
         <input
@@ -239,6 +171,18 @@ export default function ProductForm({swal,
           value={description}
           onChange={ev => setDescription(ev.target.value)}
         />
+          <label>Description 2</label>
+        <textarea
+          placeholder="small description"
+          value={description1}
+          onChange={ev => setDescription1(ev.target.value)}
+        />
+          <label>Description 3</label>
+        <textarea
+          placeholder="small description"
+          value={description2}
+          onChange={ev => setDescription2(ev.target.value)}
+        />
         <label>Price (in USD)</label>
         <input
           type="number" placeholder="price"
@@ -251,109 +195,5 @@ export default function ProductForm({swal,
           Save
         </button>
       </form>
-      <label>
-        {editedCategory
-          ? `Edit category ${editedCategory.name}`
-          : 'Create new category'}
-      </label>
-      <form onSubmit={saveCategory}>
-        <div className="flex gap-1">
-          <input
-            type="text"
-            placeholder={'Category name'}
-            onChange={ev => setName(ev.target.value)}
-            value={name}/>
-          <select
-                  onChange={ev => setParentCategory(ev.target.value)}
-                  value={parentCategory}>
-            <option value="">No parent category</option>
-            {categories.length > 0 && categories.map(category => (
-              <option key={category._id} value={category._id}>{category.name}</option>
-            ))}
-          </select>
-        </div>
-        <div className="mb-2">
-          <label className="block">Properties</label>
-          <button
-            onClick={addProperty}
-            type="button"
-            className="btn-default text-sm mb-2">
-            Add new property
-          </button>
-          {properties.length > 0 && properties.map((property,index) => (
-            <div key={property.name} className="flex gap-1 mb-2">
-              <input type="text"
-                     value={property.name}
-                     className="mb-0"
-                     onChange={ev => handlePropertyNameChange(index,property,ev.target.value)}
-                     placeholder="property name (example: color)"/>
-              <input type="text"
-                     className="mb-0"
-                     onChange={ev =>
-                       handlePropertyValuesChange(
-                         index,
-                         property,ev.target.value
-                       )}
-                     value={property.values}
-                     placeholder="values, comma separated"/>
-              <button
-                onClick={() => removeProperty(index)}
-                type="button"
-                className="btn-red">
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
-        <div className="flex gap-1">
-          {editedCategory && (
-            <button
-              type="button"
-              onClick={() => {
-                setEditedCategory(null);
-                setName('');
-                setParentCategory('');
-                setProperties([]);
-              }}
-              className="btn-default">Cancel</button>
-          )}
-          <button type="submit"
-                  className="btn-primary py-1">
-            Save
-          </button>
-        </div>
-      </form>
-      {!editedCategory && (
-        <table className="basic mt-4">
-          <thead>
-          <tr>
-            <td>Category name</td>
-            <td>Parent category</td>
-            <td></td>
-          </tr>
-          </thead>
-          <tbody>
-          {categories.length > 0 && categories.map(category => (
-            <tr key={category._id}>
-              <td>{category.name}</td>
-              <td>{category?.parent?.name}</td>
-              <td>
-                <button
-                  onClick={() => editCategory(category)}
-                  className="btn-default mr-1"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteCategory(category)}
-                  className="btn-red">Delete</button>
-              </td>
-            </tr>
-          ))}
-          </tbody>
-        </table>
-      )}
-      </div>
-      
   );
 }
