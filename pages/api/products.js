@@ -17,22 +17,21 @@ export default async function handle(req, res) {
 
   if (method === 'POST') {
     const {title,description,
-     description1,description2,description3,description4,description5,description6,description7,
-      description8,description9,description10,price,images,category,properties} = req.body;
+    feature1,feature2,feature3,feature4,feature5,feature6,feature7,
+    feature8,feature9,features1,features2,features3,features4,features5,price,images,category,properties} = req.body;
     const productDoc = await Product.create({
-      title,description,description1,description2,description3,description4,description5,description6,description7,
-      description8,description9,description10,price,images,category,properties,
+      title,description,feature1,feature2,feature3,feature4,feature5,feature6,feature7,
+      feature8,feature9,features1,features2,features3,features4,features5,price,images,category,properties,
     })
     res.json(productDoc);
   }
 
   if (method === 'PUT') {
-    const {title,description
-    ,description1,description2,description3,description4,description5,description6,description7,
-      description8,description9,description10,price,images,category,properties,_id} = req.body;
-    await Product.updateOne({_id}, {title,description
-      ,description1,description2,description3,description4,description5,description6,description7,
-      description8,description9,description10,price,images,category,properties});
+    const {title,description,
+      feature1,feature2,feature3,feature4,feature5,feature6,feature7,
+      feature8,feature9,features1,features2,features3,features4,features5,price,images,category,properties,_id} = req.body;
+    await Product.updateOne({_id}, { title,description,feature1,feature2,feature3,feature4,feature5,feature6,feature7,
+      feature8,feature9,features1,features2,features3,features4,features5,price,images,category,properties});
     res.json(true);
   }
 

@@ -183,6 +183,55 @@ export default function ProductForm({
           value={description2}
           onChange={ev => setDescription2(ev.target.value)}
         />
+         <label>Description 4</label>
+        <textarea
+          placeholder="small description"
+          value={description3}
+          onChange={ev => setDescription3(ev.target.value)}
+        />
+         <label>Description 5</label>
+        <textarea
+          placeholder="small description"
+          value={description4}
+          onChange={ev => setDescription4(ev.target.value)}
+        />
+         <label>Description 6</label>
+        <textarea
+          placeholder="small description"
+          value={description5}
+          onChange={ev => setDescription5(ev.target.value)}
+        />
+         <label>Description 7</label>
+        <textarea
+          placeholder="small description"
+          value={description6}
+          onChange={ev => setDescription6(ev.target.value)}
+        />
+         <label>Description 8</label>
+        <textarea
+          placeholder="small description"
+          value={description7}
+          onChange={ev => setDescription7(ev.target.value)}
+        />
+         <label>Description 9</label>
+        <textarea
+          placeholder="small description"
+          value={description8}
+          onChange={ev => setDescription8(ev.target.value)}
+        />
+         <label>Description 10</label>
+        <textarea
+          placeholder="small description"
+          value={description9}
+          onChange={ev => setDescription9(ev.target.value)}
+        />
+         <label>Description 11</label>
+        <textarea
+          placeholder="small description"
+          value={description10}
+          onChange={ev => setDescription10(ev.target.value)}
+        />
+        
         <label>Price (in USD)</label>
         <input
           type="number" placeholder="price"
